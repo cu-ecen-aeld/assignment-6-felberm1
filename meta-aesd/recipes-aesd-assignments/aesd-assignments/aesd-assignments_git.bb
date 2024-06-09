@@ -10,6 +10,8 @@ PV = "1.0+git${SRCPV}"
 # TODO: set to reference a specific commit hash in your assignment repo
 SRCREV = "647e80790c7744278183e54682755e6ce5646065"
 
+RDPENDS:${PN} = "libgcc"
+
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at 
 # https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-WORKDIR
 # We reference the "server" directory here to build from the "server" directory
@@ -25,6 +27,10 @@ FILES:${PN} += " \
 # TODO: customize these as necessary for any libraries you need for your application
 # (and remove comment)
 TARGET_LDFLAGS += "-pthread -lrt"
+
+inherit update-rc.d
+INITSCRIPT_NAME = "aesdsocket-start-stop"
+INITSCRIPT_PARAMS = " start 99 5 . stop 20 0 1 6 ."
 
 do_configure () {
 	:
